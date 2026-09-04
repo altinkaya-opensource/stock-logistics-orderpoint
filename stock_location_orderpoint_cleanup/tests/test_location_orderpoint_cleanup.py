@@ -57,7 +57,7 @@ class TestLocationOrderpointCleanup(TestLocationOrderpointCommon):
     def test_orderpoint(self):
         """ """
         orderpoint, location_src = self._create_orderpoint_complete(
-            "Reserve", trigger="manual"
+            "Reserve", trigger="manual", proc_run_async=False
         )
 
         # Create quantities on Reserve location
@@ -100,7 +100,7 @@ class TestLocationOrderpointCleanup(TestLocationOrderpointCommon):
     def test_orderpoint_wizard(self):
         """ """
         orderpoint, location_src = self._create_orderpoint_complete(
-            "Reserve", trigger="manual"
+            "Reserve", trigger="manual", proc_run_async=False
         )
 
         # Create quantities on Reserve location
@@ -150,7 +150,7 @@ class TestLocationOrderpointCleanup(TestLocationOrderpointCommon):
     def test_orderpoint_run_after(self):
         """ """
         orderpoint, location_src = self._create_orderpoint_complete(
-            "Reserve", trigger="manual"
+            "Reserve", trigger="manual", proc_run_async=False
         )
 
         # Create quantities on Reserve location
@@ -198,7 +198,7 @@ class TestLocationOrderpointCleanup(TestLocationOrderpointCommon):
     def test_orderpoint_run_after_partial(self):
         """ """
         orderpoint, location_src = self._create_orderpoint_complete(
-            "Reserve", trigger="manual"
+            "Reserve", trigger="manual", proc_run_async=False
         )
 
         # Create quantities on Reserve location
@@ -247,7 +247,7 @@ class TestLocationOrderpointCleanup(TestLocationOrderpointCommon):
     def test_orderpoint_cron(self):
         """ """
         orderpoint, location_src = self._create_orderpoint_complete(
-            "Reserve", trigger="manual"
+            "Reserve", trigger="manual", proc_run_async=False
         )
 
         # Create quantities on Reserve location
@@ -297,7 +297,7 @@ class TestLocationOrderpointCleanup(TestLocationOrderpointCommon):
     def test_orderpoint_cron_replenish(self):
         """ """
         orderpoint, location_src = self._create_orderpoint_complete(
-            "Reserve", trigger="manual"
+            "Reserve", trigger="manual", proc_run_async=False
         )
 
         # Create quantities on Reserve location
@@ -364,6 +364,4 @@ class TestLocationOrderpointCleanup(TestLocationOrderpointCommon):
         action = orderpoint.with_context(
             active_ids=orderpoint.ids, active_model="stock.location.orderpoint"
         ).get_cleanup_action()
-        self.assertDictContainsSubset(
-            {"res_model": "stock.location.orderpoint.cleanup"}, action
-        )
+        self.assertEqual(action.get("res_model"), "stock.location.orderpoint.cleanup")
